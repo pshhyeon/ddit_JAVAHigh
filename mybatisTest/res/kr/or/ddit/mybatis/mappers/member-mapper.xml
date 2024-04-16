@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 문서는 myBatis에서 처리할 SQL문을 작성하는 문서입니다 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace이름은 대체적으로 파일이름으로 맞춰줘야 찾기 쉽다 -->
+<mapper namespace="member">
+	<insert id="insertMember" parameterType="memVO">
+		insert into mymember(mem_id, mem_pass, mem_name, mem_tel, mem_addr)
+		values (#{mem_id}, #{mem_pass}, #{mem_name}, #{mem_tel}, #{mem_addr})
+	</insert>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from mymember where mem_id = #{mem_id}
+	</delete>
+	
+	<update id="updateMember" parameterType="memVO">
+		update mymember 
+		set mem_pass = #{mem_pass}, mem_name = #{mem_name}, mem_tel = #{mem_tel}, mem_addr = #{mem_addr}
+		where mem_id = #{mem_id}
+	</update>
+	
+	<!-- 
+      * parameterType으로 map을 받으면 SQL문에는 변수명 대신 Map의 Key값으로 한다
+      * 파라미터로 가져온 값을 '컬럼명'등의 자리에서 사용할 경우에는 달러($)기호를 사용해서 나타낸다
+      	예)${변수명} 또는 ${key값}
+    -->
+	<update id="updateMember2" parameterType="Map">
+		update mymember 
+		set mem_pass = #{mem_pass}, 
+			mem_name = #{mem_name}, 
+			mem_tel = #{mem_tel}, 
+			mem_addr = #{mem_addr}
+		where mem_id = #{mem_id}
+	</update>
+	
+	<!-- 실행시 seletList()메서드 사용 -->
+	<select id="getAllMember" resultType="memVO">
+		select * from mymember
+	</select> 
+	
+	
+	<!-- 실행시 seletOne()메서드 사용 -->
+	<select id="getMemberIdCount" parameterType="String" resultType="int">
+		select count(*) cnt from mymember where mem_id = #{String}
+	</select>
+	
+	
+</mapper>
+	
